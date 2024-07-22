@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_notification/config/instance_app.dart';
 import 'package:my_notification/notifications/noti_service.dart';
 
 import 'package:my_notification/views/splash.dart';
@@ -8,6 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //setup();
 
   await LocalNotificationService.init();
   await Supabase.initialize(

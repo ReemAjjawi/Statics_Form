@@ -4,15 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_notification/config/color.dart';
 import 'package:my_notification/notifications/noti_service.dart';
 import 'package:my_notification/providers/insert_id_user_answer.dart';
+import 'package:my_notification/views/login.dart';
 import 'package:my_notification/views/question.dart';
 import 'package:my_notification/stream_provider.dart';
 
 class third extends ConsumerWidget {
-  third(this.questionList, this.id, this.index, this.lengh, {super.key});
+  third(this.questionList, this.id, this.index, this.NumberOfFormLength, {super.key});
   final Map<String, dynamic> questionList;
   int id;
   int index;
-  int lengh;
+  int NumberOfFormLength;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -50,8 +51,10 @@ class third extends ConsumerWidget {
                           ),
                           SizedBox(height: 8.0),
                           TextFormField(
+                            cursorColor: AppColor.primary,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
+                              hintStyle: TextStyle(color: AppColor.primary),
                               border: OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: AppColor.primary),
@@ -86,40 +89,42 @@ class third extends ConsumerWidget {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           // final question = ref.watch(questionProvider);
-                          ref.read(genderProvider(index).notifier).state = true;
-                          final indexinkwll = ref.watch(indexinkwllProvider);
+                          ref.read(checkBoxProvider(index).notifier).state = true;
+                          final FormValueTrueList = ref.watch(clickedFormProvider);
 
-                          ref.read(indexinkwllProvider.notifier).state = [
-                            ...indexinkwll,
+                          ref.read(clickedFormProvider.notifier).state = [
+                            ...FormValueTrueList,
                             index
                           ];
-                          final indexinkwll1 = ref.watch(indexinkwllProvider);
+                          final FormValueTrueListAnother = ref.watch(clickedFormProvider);
 
                           final insertDataid =
                               ref.read(insertIdUserWhoAnswerOnQuestion);
                           insertDataid(questionList['id'], id);
-                          if (indexinkwll1.length != lengh) {
+                          if (FormValueTrueListAnother.length != NumberOfFormLength) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                     const         SnackBar(
+                              const SnackBar(
                                 content: Text('شكرا للمشاركة في الاستبيان'),
                                 duration: Duration(seconds: 2),
                                 backgroundColor: AppColor.primary,
                               ),
                             );
+                            Navigator.pop(
+                              context,
+                            );
                           }
 
-                          if (indexinkwll1.length == lengh) {
-              
-                                                          LocalNotificationService.showBasicNotification();
+                          if (FormValueTrueListAnother.length == NumberOfFormLength) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignInSecreen()),
+                            );
 
-
+                            LocalNotificationService.showBasicNotification();
                           }
                           ;
-                          Navigator.pop(
-                            context,
-                          );
                         }
-
                       },
                       child: Text(
                         "إرسال الأجوبة",

@@ -16,16 +16,19 @@ class SignUpSecreen extends ConsumerWidget {
   final readProvider = StateProvider<bool>((ref) => false);
 
   final formKey = GlobalKey<FormState>();
+  ValueNotifier<bool> clicked = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
     final userModel = ref.watch(insertedRecordIdProvider);
-    final gender = ref.watch(genderProvider);
+    final gender = ref
+    .watch(genderProvider);
     final sport = ref.watch(sportProvider);
     final read = ref.watch(readProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 33, 229, 243),
+        backgroundColor: AppColor.primary,
         elevation: 0,
       ),
       backgroundColor: Color(0xFFffffff),
@@ -60,7 +63,11 @@ class SignUpSecreen extends ConsumerWidget {
                   height: 20,
                 ),
                 TextFormField(
+                                              cursorColor: AppColor.primary,
+
                   decoration: InputDecoration(
+                                                  hintStyle: TextStyle(color: AppColor.primary),
+
                     labelText: 'البريد الالكتروني:',
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -81,8 +88,12 @@ class SignUpSecreen extends ConsumerWidget {
                   height: 20,
                 ),
                 TextFormField(
+                                              cursorColor: AppColor.primary,
+
                   obscureText: true,
                   decoration: InputDecoration(
+                                                  hintStyle: TextStyle(color: AppColor.primary),
+
                     labelText: 'كلمة السر:',
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -96,6 +107,9 @@ class SignUpSecreen extends ConsumerWidget {
                     if (value == null || value.isEmpty) {
                       return 'الرجاء إدخال كلمة السر';
                     }
+                       else if (value.length<5) {
+                      return 'الرجاء إدخال كلمة سر اكثر من 5 احرف ';
+                    }
                     return null;
                   },
                 ),
@@ -106,9 +120,14 @@ class SignUpSecreen extends ConsumerWidget {
                   height: 20,
                 ),
                 TextFormField(
+                                              cursorColor: AppColor.primary,
+                                              
+
                   controller: nameController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
+                                                  hintStyle: TextStyle(color: AppColor.primary),
+
                     labelText: 'الإسم:',
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -129,9 +148,14 @@ class SignUpSecreen extends ConsumerWidget {
                   height: 20,
                 ),
                 TextFormField(
+                                              cursorColor: AppColor.primary,
+                                              
+
                   controller: ageController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
+                                                  hintStyle: TextStyle(color: AppColor.primary),
+
                     labelText: 'العمر:',
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -177,17 +201,63 @@ class SignUpSecreen extends ConsumerWidget {
 
 
 
-   Container(
-                                height: 50,
-                              //  width:50,
-                                margin: EdgeInsets.symmetric(horizontal: 90),
-                                decoration: BoxDecoration(
-                                  color: Colors.cyan[500],
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Center(
-                                  child: TextButton(
-                                        onPressed: () async {
+  //  Container(
+  //                               height: 50,
+  //                             //  width:50,
+  //                               margin: EdgeInsets.symmetric(horizontal: 90),
+  //                               decoration: BoxDecoration(
+  //                                 color: Colors.cyan[500],
+  //                                 borderRadius: BorderRadius.circular(20),
+  //                               ),
+  //                               child: Center(
+  //                                 child: TextButton(
+  //                                       onPressed: () async {
+  //                   if (formKey.currentState!.validate()) {
+  //                     final name = nameController.text;
+  //                     final age = int.tryParse(ageController.text);
+
+  //                     if (name.isNotEmpty && age != null) {
+  //                       try {
+  //                      final insertUser = ref.read(insertUserProvider);
+  //                         final user = await insertUser(
+  //                             UserModel(name: name, age: age, id: 0));
+  //                         //  ref.read(insertedRecordIdProvider.notifier).state = user;
+  //                         Navigator.pushReplacement(
+  //                             context,
+  //                             MaterialPageRoute(
+  //                                 builder: (context) =>
+  //                                     QuestionsPage(id: user.id)));
+  //                       } catch (e) {
+  //                         print(e);
+  //                       }
+  //                     }
+  //                   }
+  //                 },
+  //                                     child: Text('تسجيل المعلومات',
+  //                                       style: TextStyle(
+  //                                           color: Colors.white,
+  //                                           fontSize: 16,
+  //                                           fontWeight: FontWeight.bold),
+  //                                     )),
+  //                               ),
+  //                             ),
+
+
+
+
+
+
+
+
+
+
+             ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(AppColor.primary),
+                  ),
+                onPressed: () async {
+                  clicked.value=true;
                     if (formKey.currentState!.validate()) {
                       final name = nameController.text;
                       final age = int.tryParse(ageController.text);
@@ -209,66 +279,27 @@ class SignUpSecreen extends ConsumerWidget {
                       }
                     }
                   },
-                                      child: Text('تسجيل المعلومات',
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                       child: Text('تسجيل المعلومات',
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold),
-                                      )),
-                                ),
-                              ),
+                                      )
+                    ),
+                  ),
+                ),
+                
+     ValueListenableBuilder(
+              valueListenable: clicked,
+              builder: (context, hisValue, _) {
+                return Visibility(visible: hisValue,
+                  child: CircularProgressIndicator());
+              },
+            ),
 
-
-
-
-
-
-
-
-
-
-
-
-                // ElevatedButton(
-                //   style: ButtonStyle(
-                //     backgroundColor:
-                //         MaterialStateProperty.all(AppColor.primary),
-                //   ),
-                //   onPressed: () async {
-                //     if (formKey.currentState!.validate()) {
-                //       final name = nameController.text;
-                //       final age = int.tryParse(ageController.text);
-
-                //       if (name.isNotEmpty && age != null) {
-                //         try {
-                //           final insertData = ref.read(insertDataProvider);
-                //           final user = await insertData(
-                //               UserModel(name: name, age: age, id: 0));
-                //           //  ref.read(insertedRecordIdProvider.notifier).state = user;
-                //           Navigator.push(
-                //               context,
-                //               MaterialPageRoute(
-                //                   builder: (context) =>
-                //                       QuestionsPage(id: user.id)));
-                //         } catch (e) {
-                //           print(e);
-                //         }
-                //       }
-                //     }
-                //   },
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Center(
-                //       child: Text(
-                //         "تسجيل المعلومات ",
-                //         style: TextStyle(
-                //           fontSize: 15,
-                //           color: Colors.black,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 // SizedBox(height: 20),
                 // Text(userModel != null
                 //     ? 'Inserted record ID: ${userModel.id}'

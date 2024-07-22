@@ -215,12 +215,14 @@ String hint;
     return Container(
         padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
+          
             border: Border(
                 bottom: BorderSide(color: Colors.grey))),
         child: TextField(
           decoration: InputDecoration(
+                                          hintStyle: TextStyle(color: AppColor.primary),
+
               hintText: "$hint :",
-              hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none),
         ));
   }

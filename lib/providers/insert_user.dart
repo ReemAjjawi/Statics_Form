@@ -15,6 +15,7 @@ final insertUserProvider = Provider((ref) {
         .select()
         .single();
 
+  
     final insertedRecord = response ;
     final id = insertedRecord['id'];
     print("Inserted record ID: $id");

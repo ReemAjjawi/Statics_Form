@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_notification/config/color.dart';
 import 'package:my_notification/providers/notification.dart';
+import 'package:my_notification/views/login.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:my_notification/views/third.dart';
 
-final genderProvider = StateProvider.family<bool, int>((ref, id) => false);
-final indexinkwllProvider = StateProvider<List<int>>((ref) => []);
+final checkBoxProvider = StateProvider.family<bool, int>((ref, id) => false);
+final clickedFormProvider = StateProvider<List<int>>((ref) => []);
 
 class QuestionsPage extends ConsumerWidget {
   final int? id;
@@ -15,8 +16,8 @@ class QuestionsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final questionsAsyncValue = ref.watch(fetchQuestionsProvider(id!));
-    final indexinkwll = ref.watch(indexinkwllProvider);
+    final fetchQuestions = ref.watch(fetchQuestionsProvider(id!));
+    final clickedCheckBoxList = ref.watch(clickedFormProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +26,7 @@ class QuestionsPage extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: questionsAsyncValue.when(
+        child: fetchQuestions.when(
           data: (questions) {
             int lengh = questions.length;
 
@@ -35,7 +36,7 @@ class QuestionsPage extends ConsumerWidget {
                     itemCount: questions.length,
                     itemBuilder: (context, index) {
                       var questionList = questions[index];
-                      final gender = ref.watch(genderProvider(index));
+                      final checkBoxValue = ref.watch(checkBoxProvider(index));
 
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -43,7 +44,7 @@ class QuestionsPage extends ConsumerWidget {
                           children: [
                             // CheckboxListTile
                             Checkbox(
-                              value: gender,
+                              value: checkBoxValue,
                               onChanged: (bool? value) {},
                               activeColor: AppColor.primary,
                             ),
@@ -51,8 +52,8 @@ class QuestionsPage extends ConsumerWidget {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  if (indexinkwll.isEmpty ||
-                                      !indexinkwll.contains(index)) {
+                                  if (clickedCheckBoxList.isEmpty ||
+                                      !clickedCheckBoxList.contains(index)) {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -62,6 +63,16 @@ class QuestionsPage extends ConsumerWidget {
                                     );
                                   }
                                   ;
+                                     if (clickedCheckBoxList.length == lengh) {
+                             Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SignInSecreen()),
+      );
+              
+
+
+                          }
+                          ;
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
