@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:my_notification/config/color.dart';
 import 'package:my_notification/main.dart';
+import 'package:my_notification/views/sign_up.dart';
 
 class SignInSecreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 33, 229, 243),
+        backgroundColor: AppColor.primary,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -85,29 +87,10 @@ class SignInSecreen extends StatelessWidget {
                             children: [
                               Container(),
                               SizedBox(height: 40),
-                              Container(
-                                  padding: EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(color: Colors.grey))),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        hintText: "البريد الإلكتروني:",
-                                        hintStyle: TextStyle(color: Colors.grey),
-                                        border: InputBorder.none),
-                                  )),
+                              buildPrimaryTextField(hint:"البريد الإلكتروني"),
                               SizedBox(height: 40),
-                              Container(
-                                  padding: EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(color: Colors.grey))),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        hintText: "كلمة السر :",
-                                        hintStyle: TextStyle(color: Colors.grey),
-                                        border: InputBorder.none),
-                                  )),
+                                                       buildPrimaryTextField(hint:"كلمة السر :"),
+
                               SizedBox(height: 80),
                               Container(
                                 height: 50,
@@ -117,16 +100,31 @@ class SignInSecreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Center(
-                                  child: TextButton(
-                                      onPressed: () {
-                                      },
-                                      child: Text(
-                                        ' تسجيل الدخول ',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 19,
-                                            fontWeight: FontWeight.bold),
-                                      )),
+
+
+
+  child:  ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(AppColor.primary),
+                ),
+                onPressed: () {
+               
+                },
+                child: SubmitButton(submitText: "تسجيل الدخول"),
+              ),
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 ),
                               ),
                               SizedBox(
@@ -136,7 +134,6 @@ class SignInSecreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Container(
@@ -160,7 +157,7 @@ class SignInSecreen extends StatelessWidget {
                                         ),
                                         ElevatedButton(
                                           child: Icon(
-                                            Icons.arrow_circle_left_rounded
+                                            Icons.arrow_circle_left_rounded,color: Color.fromARGB(255, 33, 229, 243) ,
                                           ),
                                           onPressed: () {
                                               Navigator.pushReplacement(
@@ -181,5 +178,50 @@ class SignInSecreen extends StatelessWidget {
             )),
       ),
     );
+  }
+}
+
+class SubmitButton extends StatelessWidget {
+   SubmitButton({
+    super.key,
+    required this.submitText,
+  });
+String submitText;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Text(
+                            submitText,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold),
+                          )
+      ),
+    );
+  }
+}
+
+class buildPrimaryTextField extends StatelessWidget {
+   buildPrimaryTextField({
+   required this.hint,
+    super.key,
+  });
+String hint;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: Colors.grey))),
+        child: TextField(
+          decoration: InputDecoration(
+              hintText: "$hint :",
+              hintStyle: TextStyle(color: Colors.grey),
+              border: InputBorder.none),
+        ));
   }
 }

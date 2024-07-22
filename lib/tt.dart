@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:my_notification/noti_service.dart';
+import 'package:my_notification/notifications/noti_service.dart';
 
 class tt extends StatelessWidget {
   const tt({super.key});
