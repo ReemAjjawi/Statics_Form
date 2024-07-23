@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_notification/config/color.dart';
 
 class SubmitButton extends StatelessWidget {
   final String submitText;
@@ -17,7 +18,7 @@ class SubmitButton extends StatelessWidget {
       child: Center(
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.blue), // Change this to your AppColor.primary
+            backgroundColor: MaterialStateProperty.all(AppColor.primary), 
           ),
           onPressed: onPressed,
           child: Text(

@@ -26,20 +26,22 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textAlign: TextAlign.end,
       controller: controller,
       cursorColor: AppColor.primary,
       keyboardType: keyboardType,
       obscureText: obscureText,
       decoration: InputDecoration(
         labelText: labelText,
+        labelStyle: TextStyle(color: Color.fromARGB(214, 165, 168, 168)),
         hintText: hintText,
-        hintStyle: TextStyle(color: AppColor.primary),
+        hintStyle: TextStyle(color: Color.fromARGB(214, 165, 168, 168)),
         border: OutlineInputBorder(),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColor.primary),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColor.primary),
+          borderSide: BorderSide(color: Color.fromARGB(214, 165, 168, 168)),
         ),
       ),
       validator: validator,

@@ -5,11 +5,10 @@ import 'package:my_notification/component.dart/button_submit.dart';
 import 'package:my_notification/component.dart/textfield_primary.dart';
 import 'package:my_notification/config/color.dart';
 import 'package:my_notification/notifications/noti_service.dart';
-import 'package:my_notification/providers/fake_insert_provider.dart';
-import 'package:my_notification/providers/insert_id_user_answer.dart';
+import 'package:my_notification/providers/insert_provider.dart';
+import 'package:my_notification/dirty_things.dart/insert_id_user_answer.dart';
 import 'package:my_notification/views/login.dart';
-import 'package:my_notification/views/question.dart';
-import 'package:my_notification/stream_provider.dart';
+import 'package:my_notification/views/forms.dart';
 
 class Third extends ConsumerWidget {
   Third(this.questionList, this.id, this.index, this.numberOfFormLength, {super.key});
@@ -55,10 +54,10 @@ class Third extends ConsumerWidget {
                           ),
                           SizedBox(height: 8.0),
                           CustomTextFormField(
-                            hintText: 'Enter your answer',
+                            hintText: 'أدخل إجابتك',
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter an answer';
+                                return 'الرجاء إدخال إجابة';
                               }
                               return null;
                             },
@@ -104,7 +103,7 @@ class Third extends ConsumerWidget {
                         MaterialPageRoute(builder: (context) => SignInSecreen()),
                       );
 
-                      LocalNotificationService.showBasicNotification();
+                      LocalNotificationService.showBasicNotificationWhenAnswer();
                     }
                   }
                 },

@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_notification/config/color.dart';
-import 'package:my_notification/providers/fake_noti.dart';
-import 'package:my_notification/providers/notification.dart';
+import 'package:my_notification/providers/notification_provider.dart';
+import 'package:my_notification/dirty_things.dart/notification.dart';
 import 'package:my_notification/views/login.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:my_notification/views/third.dart';
+import 'package:my_notification/views/questions.dart';
 
 final checkBoxProvider = StateProvider.family<bool, int>((ref, id) => false);
 final clickedFormProvider = StateProvider<List<int>>((ref) => []);
 
 class QuestionsPage extends ConsumerWidget {
   final int? id;
-   final String typeuser;
+   final String typeUser;
   var questions;
-  QuestionsPage({required this.id, required this.typeuser,super.key});
+  QuestionsPage({required this.id, required this.typeUser,super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final clickedFormProvider = StateProvider<List<int>>((ref) => []);
 
-    final fetchQuestions = ref.watch(fetchQuestionsProvider(typeuser));
+    final fetchQuestions = ref.watch(fetchQuestionsProvider(typeUser));
     final clickedCheckBoxList = ref.watch(clickedFormProvider);
 
     return Scaffold(

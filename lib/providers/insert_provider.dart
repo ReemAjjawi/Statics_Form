@@ -3,13 +3,13 @@ import 'package:get_it/get_it.dart';
 import 'package:my_notification/models/signup_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-// Provider to access SupabaseClient from GetIt
+
 final supabaseProvider = Provider<SupabaseClient>((ref) {
   return GetIt.instance<SupabaseClient>();
 });
 
 
-// Define the Service interface
+
 abstract class Service {
   late SupabaseClient supabase;
 
@@ -58,19 +58,19 @@ class UseridService extends Service {
   Future insertIdUser(int questionId, int userId) async {
     final response = await supabase
         .from('questions')
-        .select('id_of_users')
+        .select('idOfUsers')
         .eq('id', questionId)
         .single();
 
     final data = response;
-    List<int> idOfUsers = List<int>.from(data['id_of_users'] ?? []);
+    List<int> idOfUsers = List<int>.from(data['idOfUsers'] ?? []);
     if (!idOfUsers.contains(userId)) {
       idOfUsers.add(userId);
     }
 
     final updateResponse = await supabase
         .from('questions')
-        .update({'id_of_users': idOfUsers}).eq('id', questionId);
+        .update({'idOfUsers': idOfUsers}).eq('id', questionId);
         
           return insertIdUser;
   }

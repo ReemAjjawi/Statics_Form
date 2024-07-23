@@ -6,10 +6,9 @@ import 'package:my_notification/component.dart/textfield_primary.dart';
 import 'package:my_notification/config/algrithm.dart';
 import 'package:my_notification/config/color.dart';
 import 'package:my_notification/models/signup_model.dart';
-import 'package:my_notification/providers/fake_insert_provider.dart';
-import 'package:my_notification/providers/insert_user.dart';
-import 'package:my_notification/stream_provider.dart';
-import 'package:my_notification/views/question.dart';
+import 'package:my_notification/providers/insert_provider.dart';
+import 'package:my_notification/providers/notification_provider.dart';
+import 'package:my_notification/views/forms.dart';
 
 class SignUpSecreen extends ConsumerWidget {
   final TextEditingController nameController = TextEditingController();
@@ -65,7 +64,6 @@ class SignUpSecreen extends ConsumerWidget {
                 ),
             CustomTextFormField(
                     labelText: 'البريد الالكتروني:',
-                    hintText: 'أدخل بريدك الإلكتروني',
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -79,8 +77,7 @@ class SignUpSecreen extends ConsumerWidget {
                 ),
                 CustomTextFormField(
                     labelText: 'كلمة السر:',
-                    hintText: 'أدخل كلمة السر',
-                    obscureText: true,
+                       obscureText: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'الرجاء إدخال كلمة السر';
@@ -88,19 +85,17 @@ class SignUpSecreen extends ConsumerWidget {
                         return 'الرجاء إدخال كلمة سر اكثر من 5 أحرف';
                       }
                       return null;
+                      
                     },
                   ),
-                SizedBox(
-                  height: 20,
-                ),
+            
                 SizedBox(
                   height: 20,
                 ),
                 CustomTextFormField(
                     controller: nameController,
                     labelText: 'الإسم:',
-                    hintText: 'أدخل اسمك',
-                    validator: (value) {
+                  validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'الرجاء إدخال الإسم';
                       }
@@ -111,8 +106,8 @@ class SignUpSecreen extends ConsumerWidget {
                   height: 20,
                 ),
               CustomTextFormField(
+                labelText: 'العمر :',
                     controller: ageController,
-                    hintText: 'العمر:',
                     keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -169,14 +164,14 @@ final userService = ref.watch(userServiceProvider);
   final insertedUser = await userService.insertUser(  UserModel(name: name, age: age, id: 0));
   print('Inserted User: ${insertedUser.name}, ID: ${insertedUser.id}');
 
-String typeuser =
-                                    typyuserfunchen(age, gender, read);
+String typeUser =
+                                    typeUserFunction(age, gender, read);
                       
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      QuestionsPage(id: insertedUser.id,typeuser:typeuser)));
+                                      QuestionsPage(id: insertedUser.id,typeUser:typeUser)));
                         } catch (e) {
                           print(e);
                         }

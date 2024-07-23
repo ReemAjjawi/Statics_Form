@@ -77,7 +77,7 @@ class SignInSecreen extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                      flex: 5,
+                      flex: 3,
                       child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -88,7 +88,7 @@ class SignInSecreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Container(),
-                              SizedBox(height: 40),
+                              SizedBox(height: 80),
   CustomTextFormField(
                     labelText: 'البريد الالكتروني:',
                     hintText: 'أدخل بريدك الإلكتروني',
@@ -99,7 +99,7 @@ class SignInSecreen extends StatelessWidget {
                       }
                       return null;
                     },
-                  ),                              SizedBox(height: 40),
+                  ),                              SizedBox(height: 30),
   CustomTextFormField(
                     labelText: 'كلمة السر :',
                     hintText: 'أدخل كلمة السر ',
@@ -111,36 +111,17 @@ class SignInSecreen extends StatelessWidget {
                       return null;
                     },
                   ),
-                              SizedBox(height: 80),
-                              Container(
-                                height: 50,
-                                margin: EdgeInsets.symmetric(horizontal: 90),
-                                decoration: BoxDecoration(
-                                  color: Colors.cyan[500],
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Center(
+                              SizedBox(height: 40),
+                  
 
 
-
-      child: SubmitButton(
+    SubmitButton(
             submitText: "تسجيل الدخول",
             onPressed: () {
               print("Button pressed");
             },
           ),
 
-
-
-
-
-
-
-
-
-
-                                ),
-                              ),
                               SizedBox(
                                 height: 50,
                               ),
