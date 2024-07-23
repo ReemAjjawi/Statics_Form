@@ -1,78 +1,56 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
-class Forms {
-  List<String> form;
+class Questions {
+  List<String> questions;
   List<int> idOfUsers;
-  int id;
-  String type;
-  Forms({
-    required this.form,
+  int age;
+  int color;
+
+  Questions({
+    required this.questions,
     required this.idOfUsers,
-    required this.id,
-    required this.type,
+    required this.age,
+    required this.color,
   });
 
-  Forms copyWith({
-    List<String>? form,
+  Questions copyWith({
+    List<String>? questions,
     List<int>? idOfUsers,
-    int? id,
-    String? type,
+    int? age,
+    int? color,
   }) {
-    return Forms(
-      form: form ?? this.form,
+    return Questions(
+      questions: questions ?? this.questions,
       idOfUsers: idOfUsers ?? this.idOfUsers,
-      id: id ?? this.id,
-      type: type ?? this.type,
+      age: age ?? this.age,
+      color: color ?? this.color,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'form': form,
+    return {
+      'questions': questions,
       'idOfUsers': idOfUsers,
-      'id': id,
-      'type': type,
+      'age': age,
+      'color': color,
     };
   }
 
-
-  factory Forms.fromMap(Map<String, dynamic> map) {
-    return Forms(
-      form: List<String>.from(map['form']),
-      idOfUsers: List<int>.from(map['idOfUsers']),
-      id: map['id'],
-      type: map['type'],
+  factory Questions.fromMap(Map<String, dynamic> map) {
+    return Questions(
+      questions: List<String>.from(map['questions'] ?? []),
+      idOfUsers: List<int>.from(map['idOfUsers'] ?? []),
+      age: map['age'] as int,
+      color: map['color'] as int,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Forms.fromJson(String source) => Forms.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Questions.fromJson(String source) => Questions.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Forms(form: $form, idOfUsers: $idOfUsers, id: $id, type: $type)';
-  }
-
-  @override
-  bool operator ==(covariant Forms other) {
-    if (identical(this, other)) return true;
-  
-    return 
-      listEquals(other.form, form) &&
-      listEquals(other.idOfUsers, idOfUsers) &&
-      other.id == id &&
-      other.type == type;
-  }
-
-  @override
-  int get hashCode {
-    return form.hashCode ^
-      idOfUsers.hashCode ^
-      id.hashCode ^
-      type.hashCode;
+    return 'Questions(questions: $questions, idOfUsers: $idOfUsers, age: $age, color: $color)';
   }
 }

@@ -58,19 +58,19 @@ class UseridService extends Service {
   Future insertIdUser(int questionId, int userId) async {
     final response = await supabase
         .from('questions')
-        .select('idOfUsers')
+        .select('id_of_users')
         .eq('id', questionId)
         .single();
 
     final data = response;
-    List<int> idOfUsers = List<int>.from(data['idOfUsers'] ?? []);
+    List<int> idOfUsers = List<int>.from(data['id_of_users'] ?? []);
     if (!idOfUsers.contains(userId)) {
       idOfUsers.add(userId);
     }
 
     final updateResponse = await supabase
         .from('questions')
-        .update({'idOfUsers': idOfUsers}).eq('id', questionId);
+        .update({'id_of_users': idOfUsers}).eq('id', questionId);
         
           return insertIdUser;
   }
