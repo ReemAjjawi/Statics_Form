@@ -1,19 +1,23 @@
+// third.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_notification/component.dart/button_submit.dart';
+import 'package:my_notification/component.dart/textfield_primary.dart';
 import 'package:my_notification/config/color.dart';
 import 'package:my_notification/notifications/noti_service.dart';
+import 'package:my_notification/providers/fake_insert_provider.dart';
 import 'package:my_notification/providers/insert_id_user_answer.dart';
 import 'package:my_notification/views/login.dart';
 import 'package:my_notification/views/question.dart';
 import 'package:my_notification/stream_provider.dart';
 
-class third extends ConsumerWidget {
-  third(this.questionList, this.id, this.index, this.NumberOfFormLength, {super.key});
+class Third extends ConsumerWidget {
+  Third(this.questionList, this.id, this.index, this.numberOfFormLength, {super.key});
+  
   final Map<String, dynamic> questionList;
-  int id;
-  int index;
-  int NumberOfFormLength;
+  final int id;
+  final int index;
+  final int numberOfFormLength;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -50,19 +54,8 @@ class third extends ConsumerWidget {
                             ),
                           ),
                           SizedBox(height: 8.0),
-                          TextFormField(
-                            cursorColor: AppColor.primary,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              hintStyle: TextStyle(color: AppColor.primary),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: AppColor.primary),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: AppColor.primary),
-                              ),
-                            ),
+                          CustomTextFormField(
+                            hintText: 'Enter your answer',
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter an answer';
@@ -76,94 +69,47 @@ class third extends ConsumerWidget {
                   },
                 ),
               ),
+              SubmitButton(
+                submitText: "إرسال الأجوبة",
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    // final question = ref.watch(questionProvider);
+                    final FormValueTrueList = ref.watch(clickedFormProvider);
 
-              Container(
-                height: 50,
-                margin: EdgeInsets.symmetric(horizontal: 90),
-                decoration: BoxDecoration(
-                  color: Colors.cyan[500],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Center(
-                  child: TextButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          // final question = ref.watch(questionProvider);
-                          ref.read(checkBoxProvider(index).notifier).state = true;
-                          final FormValueTrueList = ref.watch(clickedFormProvider);
+                    ref.read(clickedFormProvider.notifier).state = [
+                      ...FormValueTrueList,
+                      index
+                    ];
+                    final FormValueTrueListAnother = ref.watch(clickedFormProvider);
 
-                          ref.read(clickedFormProvider.notifier).state = [
-                            ...FormValueTrueList,
-                            index
-                          ];
-                          final FormValueTrueListAnother = ref.watch(clickedFormProvider);
+                    final useridService = ref.watch(useridServiceProvider);
 
-                          final insertDataid =
-                              ref.read(insertIdUserWhoAnswerOnQuestion);
-                          insertDataid(questionList['id'], id);
-                          if (FormValueTrueListAnother.length != NumberOfFormLength) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('شكرا للمشاركة في الاستبيان'),
-                                duration: Duration(seconds: 2),
-                                backgroundColor: AppColor.primary,
-                              ),
-                            );
-                            Navigator.pop(
-                              context,
-                            );
-                          }
+                    final insertedUser = useridService.insertIdUser(questionList['id'], id);
+                                        ref.read(checkBoxProvider(index).notifier).state = true;
 
-                          if (FormValueTrueListAnother.length == NumberOfFormLength) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignInSecreen()),
-                            );
+                    if (FormValueTrueListAnother.length != numberOfFormLength) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('شكرا للمشاركة في الاستبيان'),
+                          duration: Duration(seconds: 2),
+                          backgroundColor: AppColor.primary,
+                        ),
+                      );
+                      Navigator.pop(context);
+                    }
 
-                            LocalNotificationService.showBasicNotification();
-                          }
-                          ;
-                        }
-                      },
-                      child: Text(
-                        "إرسال الأجوبة",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold),
-                      )),
-                ),
+                    if (FormValueTrueListAnother.length == numberOfFormLength) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignInSecreen()),
+                      );
+
+                      LocalNotificationService.showBasicNotification();
+                    }
+                  }
+                },
               ),
-
-              // ElevatedButton(
-              //   style: ButtonStyle(
-              //     backgroundColor: MaterialStateProperty.all(AppColor.primary),
-              //   ),
-              //   onPressed: () {
-              //     ref.read(genderProvider(index).notifier).state = true;
-              //     final insertDataid = ref.read(insertDataProvideridqushn);
-              //     insertDataid(questionList['id'], id);
-              //     Navigator.pop(
-              //       context,
-              //     );
-              //   },
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: Center(
-              //       child: Text(
-              //         "ارسال المعلومات ",
-              //         style: TextStyle(
-              //           fontSize: 15,
-              //           color: Colors.black,
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              SizedBox(
-                height: 50,
-              )
+              SizedBox(height: 50),
             ],
           ),
         ),

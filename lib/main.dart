@@ -9,14 +9,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //setup();
+ 
 
   await LocalNotificationService.init();
   await Supabase.initialize(
       url: 'https://pehikzmkdmfcatmkceyg.supabase.co',
       anonKey:
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlaGlrem1rZG1mY2F0bWtjZXlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjA4OTAyNTAsImV4cCI6MjAzNjQ2NjI1MH0.n7UUBLmk3y6jqiiiAky3HO2v2I4yxCvKL1VqyGooX7Y');
-
+  setup();
   runApp(const MyApp());
 }
 

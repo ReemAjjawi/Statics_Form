@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_notification/component.dart/button_submit.dart';
+import 'package:my_notification/component.dart/textfield_primary.dart';
 import 'package:my_notification/config/color.dart';
 import 'package:my_notification/main.dart';
 import 'package:my_notification/views/sign_up.dart';
@@ -87,10 +89,28 @@ class SignInSecreen extends StatelessWidget {
                             children: [
                               Container(),
                               SizedBox(height: 40),
-                              buildPrimaryTextField(hint:"البريد الإلكتروني"),
-                              SizedBox(height: 40),
-                                                       buildPrimaryTextField(hint:"كلمة السر :"),
-
+  CustomTextFormField(
+                    labelText: 'البريد الالكتروني:',
+                    hintText: 'أدخل بريدك الإلكتروني',
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال البريد الالكتروني';
+                      }
+                      return null;
+                    },
+                  ),                              SizedBox(height: 40),
+  CustomTextFormField(
+                    labelText: 'كلمة السر :',
+                    hintText: 'أدخل كلمة السر ',
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال كلمة سر صالحة ';
+                      }
+                      return null;
+                    },
+                  ),
                               SizedBox(height: 80),
                               Container(
                                 height: 50,
@@ -103,18 +123,12 @@ class SignInSecreen extends StatelessWidget {
 
 
 
-  child:  ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(AppColor.primary),
-                ),
-                onPressed: () {
-               
-                },
-                child: SubmitButton(submitText: "تسجيل الدخول"),
-              ),
-
-
-
+      child: SubmitButton(
+            submitText: "تسجيل الدخول",
+            onPressed: () {
+              print("Button pressed");
+            },
+          ),
 
 
 
@@ -178,52 +192,5 @@ class SignInSecreen extends StatelessWidget {
             )),
       ),
     );
-  }
-}
-
-class SubmitButton extends StatelessWidget {
-   SubmitButton({
-    super.key,
-    required this.submitText,
-  });
-String submitText;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(
-        child: Text(
-                            submitText,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 19,
-                                fontWeight: FontWeight.bold),
-                          )
-      ),
-    );
-  }
-}
-
-class buildPrimaryTextField extends StatelessWidget {
-   buildPrimaryTextField({
-   required this.hint,
-    super.key,
-  });
-String hint;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          
-            border: Border(
-                bottom: BorderSide(color: Colors.grey))),
-        child: TextField(
-          decoration: InputDecoration(
-                                          hintStyle: TextStyle(color: AppColor.primary),
-
-              hintText: "$hint :",
-              border: InputBorder.none),
-        ));
   }
 }

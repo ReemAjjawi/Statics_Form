@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_notification/config/color.dart';
+import 'package:my_notification/providers/fake_noti.dart';
 import 'package:my_notification/providers/notification.dart';
 import 'package:my_notification/views/login.dart';
 import 'package:shimmer/shimmer.dart';
@@ -11,12 +12,15 @@ final clickedFormProvider = StateProvider<List<int>>((ref) => []);
 
 class QuestionsPage extends ConsumerWidget {
   final int? id;
+   final String typeuser;
   var questions;
-  QuestionsPage({required this.id, super.key});
+  QuestionsPage({required this.id, required this.typeuser,super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fetchQuestions = ref.watch(fetchQuestionsProvider(id!));
+    final clickedFormProvider = StateProvider<List<int>>((ref) => []);
+
+    final fetchQuestions = ref.watch(fetchQuestionsProvider(typeuser));
     final clickedCheckBoxList = ref.watch(clickedFormProvider);
 
     return Scaffold(
@@ -57,7 +61,7 @@ class QuestionsPage extends ConsumerWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => third(
+                                        builder: (context) => Third(
                                             questionList, id!, index, lengh),
                                       ),
                                     );

@@ -1,8 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_notification/component.dart/button_submit.dart';
+import 'package:my_notification/component.dart/textfield_primary.dart';
+import 'package:my_notification/config/algrithm.dart';
 import 'package:my_notification/config/color.dart';
 import 'package:my_notification/models/signup_model.dart';
+import 'package:my_notification/providers/fake_insert_provider.dart';
 import 'package:my_notification/providers/insert_user.dart';
 import 'package:my_notification/stream_provider.dart';
 import 'package:my_notification/views/question.dart';
@@ -12,19 +16,16 @@ class SignUpSecreen extends ConsumerWidget {
   final TextEditingController ageController = TextEditingController();
 
   final genderProvider = StateProvider<bool>((ref) => false);
-  final sportProvider = StateProvider<bool>((ref) => false);
   final readProvider = StateProvider<bool>((ref) => false);
 
   final formKey = GlobalKey<FormState>();
-  ValueNotifier<bool> clicked = ValueNotifier(false);
+  final ValueNotifier<bool> clicked = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     
     final userModel = ref.watch(insertedRecordIdProvider);
-    final gender = ref
-    .watch(genderProvider);
-    final sport = ref.watch(sportProvider);
+    final gender = ref.watch(genderProvider);
     final read = ref.watch(readProvider);
     return Scaffold(
       appBar: AppBar(
@@ -62,132 +63,81 @@ class SignUpSecreen extends ConsumerWidget {
                 SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                                              cursorColor: AppColor.primary,
-
-                  decoration: InputDecoration(
-                                                  hintStyle: TextStyle(color: AppColor.primary),
-
+            CustomTextFormField(
                     labelText: 'البريد الالكتروني:',
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.primary),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.primary),
-                    ),
+                    hintText: 'أدخل بريدك الإلكتروني',
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال البريد الالكتروني';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'الرجاء إدخال البريد الالكتروني';
-                    }
-                    return null;
-                  },
-                ),
                 SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                                              cursorColor: AppColor.primary,
-
-                  obscureText: true,
-                  decoration: InputDecoration(
-                                                  hintStyle: TextStyle(color: AppColor.primary),
-
+                CustomTextFormField(
                     labelText: 'كلمة السر:',
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.primary),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.primary),
-                    ),
+                    hintText: 'أدخل كلمة السر',
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال كلمة السر';
+                      } else if (value.length < 5) {
+                        return 'الرجاء إدخال كلمة سر اكثر من 5 أحرف';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'الرجاء إدخال كلمة السر';
-                    }
-                       else if (value.length<5) {
-                      return 'الرجاء إدخال كلمة سر اكثر من 5 احرف ';
-                    }
-                    return null;
-                  },
-                ),
                 SizedBox(
                   height: 20,
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                                              cursorColor: AppColor.primary,
-                                              
-
-                  controller: nameController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                                                  hintStyle: TextStyle(color: AppColor.primary),
-
+                CustomTextFormField(
+                    controller: nameController,
                     labelText: 'الإسم:',
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.primary),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.primary),
-                    ),
+                    hintText: 'أدخل اسمك',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال الإسم';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'الرجاء إدخال الإسم';
-                    }
-                    return null;
-                  },
-                ),
                 SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                                              cursorColor: AppColor.primary,
-                                              
-
-                  controller: ageController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                                                  hintStyle: TextStyle(color: AppColor.primary),
-
-                    labelText: 'العمر:',
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.primary),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.primary),
-                    ),
+              CustomTextFormField(
+                    controller: ageController,
+                    hintText: 'العمر:',
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال العمر';
+                      }
+                      final int? age = int.tryParse(value);
+                      if (age == null || age < 18 || age > 90) {
+                        return 'الرجاء إدخال عمر صحيح بين 18 و 90';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'الرجاء إدخال العمر';
-                    }
-                    final int? age = int.tryParse(value);
-                    if (age == null || age < 1 || age > 90) {
-                      return 'الرجاء إدخال عمر صحيح بين 1 و 90';
-                    }
-                    return null;
-                  },
-                ),
                 SizedBox(
                   height: 30,
                 ),
             
-                CheckboxListTile(
-                  title: Text('هل تحب لعب الرياضة؟'),
-                  value: sport,
+          
+CheckboxListTile(
+                  title: Text('هل انت  تملك دراسة جامعية ؟  '),
+                  value: gender,
                   onChanged: (bool? value) {
-                    ref.read(sportProvider.notifier).state = value ?? false;
+                    ref.read(genderProvider.notifier).state = value ?? false;
                   },
- activeColor: AppColor.primary,                ),
-
+                  activeColor: AppColor.primary,
+                ),
                 CheckboxListTile(
                   title: Text('هل تحب القراءة او المطالعة؟'),
                   value: read,
@@ -199,111 +149,46 @@ class SignUpSecreen extends ConsumerWidget {
                   height: 30,
                 ),
 
-
-
-  //  Container(
-  //                               height: 50,
-  //                             //  width:50,
-  //                               margin: EdgeInsets.symmetric(horizontal: 90),
-  //                               decoration: BoxDecoration(
-  //                                 color: Colors.cyan[500],
-  //                                 borderRadius: BorderRadius.circular(20),
-  //                               ),
-  //                               child: Center(
-  //                                 child: TextButton(
-  //                                       onPressed: () async {
-  //                   if (formKey.currentState!.validate()) {
-  //                     final name = nameController.text;
-  //                     final age = int.tryParse(ageController.text);
-
-  //                     if (name.isNotEmpty && age != null) {
-  //                       try {
-  //                      final insertUser = ref.read(insertUserProvider);
-  //                         final user = await insertUser(
-  //                             UserModel(name: name, age: age, id: 0));
-  //                         //  ref.read(insertedRecordIdProvider.notifier).state = user;
-  //                         Navigator.pushReplacement(
-  //                             context,
-  //                             MaterialPageRoute(
-  //                                 builder: (context) =>
-  //                                     QuestionsPage(id: user.id)));
-  //                       } catch (e) {
-  //                         print(e);
-  //                       }
-  //                     }
-  //                   }
-  //                 },
-  //                                     child: Text('تسجيل المعلومات',
-  //                                       style: TextStyle(
-  //                                           color: Colors.white,
-  //                                           fontSize: 16,
-  //                                           fontWeight: FontWeight.bold),
-  //                                     )),
-  //                               ),
-  //                             ),
-
-
-
-
-
-
-
-
-
-
-             ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(AppColor.primary),
-                  ),
-                onPressed: () async {
-                  clicked.value=true;
-                    if (formKey.currentState!.validate()) {
-                      final name = nameController.text;
+   ValueListenableBuilder<bool>(
+                    valueListenable: clicked,
+                    builder: (context, isClicked, child) {
+                      return isClicked
+                          ? Center(child: CircularProgressIndicator())
+                          : SubmitButton(
+                              submitText: "تسجيل الدخول",
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                         final name = nameController.text;
                       final age = int.tryParse(ageController.text);
 
                       if (name.isNotEmpty && age != null) {
                         try {
-                       final insertUser = ref.read(insertUserProvider);
-                          final user = await insertUser(
-                              UserModel(name: name, age: age, id: 0));
-                          //  ref.read(insertedRecordIdProvider.notifier).state = user;
+
+final userService = ref.watch(userServiceProvider);
+
+  final insertedUser = await userService.insertUser(  UserModel(name: name, age: age, id: 0));
+  print('Inserted User: ${insertedUser.name}, ID: ${insertedUser.id}');
+
+String typeuser =
+                                    typyuserfunchen(age, gender, read);
+                      
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      QuestionsPage(id: user.id)));
+                                      QuestionsPage(id: insertedUser.id,typeuser:typeuser)));
                         } catch (e) {
                           print(e);
                         }
+                        finally {
+                                      clicked.value = false;
+                                    }
                       }
                     }
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                       child: Text('تسجيل المعلومات',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                    ),
-                  ),
-                ),
-                
-     ValueListenableBuilder(
-              valueListenable: clicked,
-              builder: (context, hisValue, _) {
-                return Visibility(visible: hisValue,
-                  child: CircularProgressIndicator());
-              },
-            ),
-
-                // SizedBox(height: 20),
-                // Text(userModel != null
-                //     ? 'Inserted record ID: ${userModel.id}'
-                //     : 'No record inserted yet'),
+          );
+                    })
+,
                 SizedBox(
                   height: 30,
                 )
