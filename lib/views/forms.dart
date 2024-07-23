@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_notification/config/color.dart';
-import 'package:my_notification/providers/notification_provider.dart';
+import 'package:my_notification/providers/fetch_question_provider.dart';
 import 'package:my_notification/dirty_things.dart/notification.dart';
 import 'package:my_notification/views/login.dart';
 import 'package:shimmer/shimmer.dart';
@@ -12,9 +12,9 @@ final clickedFormProvider = StateProvider<List<int>>((ref) => []);
 
 class QuestionsPage extends ConsumerWidget {
   final int? id;
-   final String typeUser;
+  final String typeUser;
   var questions;
-  QuestionsPage({required this.id, required this.typeUser,super.key});
+  QuestionsPage({required this.id, required this.typeUser, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +25,7 @@ class QuestionsPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:AppColor.primary,
+        backgroundColor: AppColor.primary,
         elevation: 0,
       ),
       body: Padding(
@@ -62,30 +62,22 @@ class QuestionsPage extends ConsumerWidget {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => Third(
-                                            questionList, id!, index, lengh),
+                                            questionList,
+                                            id!,
+                                            index,
+                                            lengh,
+                                            typeUser),
                                       ),
                                     );
                                   }
                                   ;
-                                     if (clickedCheckBoxList.length == lengh) {
-                             Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignInSecreen()),
-      );
-              
-
-
-                          }
-                          ;
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Card(
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
-                                          color:
-                                            AppColor.primary,
-                                          width: 2.0),
+                                          color: AppColor.primary, width: 2.0),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     margin: EdgeInsets.all(

@@ -1,56 +1,81 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class Questions {
-  List<String> questions;
-  List<int> idOfUsers;
-  int age;
-  int color;
+import 'package:flutter/foundation.dart';
 
-  Questions({
+class Forms {
+  List<dynamic> questions;
+  List<dynamic> id_of_users;
+  int? id;
+  String? type;
+  Forms({
     required this.questions,
-    required this.idOfUsers,
-    required this.age,
-    required this.color,
+    required this.id_of_users,
+    this.id,
+    this.type,
   });
 
-  Questions copyWith({
-    List<String>? questions,
-    List<int>? idOfUsers,
-    int? age,
-    int? color,
+  Forms copyWith({
+    List<dynamic>? questions,
+    List<dynamic>? id_of_users,
+    int? id,
+    String? type,
   }) {
-    return Questions(
+    return Forms(
       questions: questions ?? this.questions,
-      idOfUsers: idOfUsers ?? this.idOfUsers,
-      age: age ?? this.age,
-      color: color ?? this.color,
+      id_of_users: id_of_users ?? this.id_of_users,
+      id: id ?? this.id,
+      type: type ?? this.type,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {
+    return <String, dynamic>{
       'questions': questions,
-      'idOfUsers': idOfUsers,
-      'age': age,
-      'color': color,
+      'id_of_users': id_of_users,
+      'id': id,
+      'type': type,
     };
   }
 
-  factory Questions.fromMap(Map<String, dynamic> map) {
-    return Questions(
-      questions: List<String>.from(map['questions'] ?? []),
-      idOfUsers: List<int>.from(map['idOfUsers'] ?? []),
-      age: map['age'] as int,
-      color: map['color'] as int,
+  factory Forms.fromMap(Map<String, dynamic> map) {
+    return Forms(
+      questions: List<dynamic>.from(
+        (map['questions'] as List<dynamic>),
+      ),
+      id_of_users: List<dynamic>.from(
+        (map['id_of_users'] as List<dynamic>),
+      ),
+      id: map['id'] != null ? map['id'] as int : null,
+      type: map['type'] != null ? map['type'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Questions.fromJson(String source) => Questions.fromMap(json.decode(source));
+  factory Forms.fromJson(String source) =>
+      Forms.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Questions(questions: $questions, idOfUsers: $idOfUsers, age: $age, color: $color)';
+    return 'Forms(questions: $questions, id_of_users: $id_of_users, id: $id, type: $type)';
+  }
+
+  @override
+  bool operator ==(covariant Forms other) {
+    if (identical(this, other)) return true;
+
+    return listEquals(other.questions, questions) &&
+        listEquals(other.id_of_users, id_of_users) &&
+        other.id == id &&
+        other.type == type;
+  }
+
+  @override
+  int get hashCode {
+    return questions.hashCode ^
+        id_of_users.hashCode ^
+        id.hashCode ^
+        type.hashCode;
   }
 }

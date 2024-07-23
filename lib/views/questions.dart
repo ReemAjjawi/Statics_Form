@@ -9,15 +9,19 @@ import 'package:my_notification/providers/insert_provider.dart';
 import 'package:my_notification/dirty_things.dart/insert_id_user_answer.dart';
 import 'package:my_notification/views/login.dart';
 import 'package:my_notification/views/forms.dart';
+import 'package:my_notification/views/statics.dart';
 
 class Third extends ConsumerWidget {
-  Third(this.questionList, this.id, this.index, this.numberOfFormLength, {super.key});
-  
+  Third(this.questionList, this.id, this.index, this.numberOfFormLength,
+      this.typeuser,
+      {super.key});
+
   final Map<String, dynamic> questionList;
   final int id;
   final int index;
   final int numberOfFormLength;
   final formKey = GlobalKey<FormState>();
+  String typeuser;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -79,12 +83,19 @@ class Third extends ConsumerWidget {
                       ...FormValueTrueList,
                       index
                     ];
-                    final FormValueTrueListAnother = ref.watch(clickedFormProvider);
+                    final FormValueTrueListAnother =
+                        ref.watch(clickedFormProvider);
 
                     final useridService = ref.watch(useridServiceProvider);
 
-                    final insertedUser = useridService.insertIdUser(questionList['id'], id);
-                                        ref.read(checkBoxProvider(index).notifier).state = true;
+                    final insertedUser =
+                        useridService.insertIdUser(questionList['id'], id);
+
+                    final usechek = ref.watch(chekboxServiceProvider);
+
+                    final usechek1 = usechek.chek(questionList['id'], id);
+
+                    ref.read(checkBoxProvider(index).notifier).state = true;
 
                     if (FormValueTrueListAnother.length != numberOfFormLength) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -100,10 +111,14 @@ class Third extends ConsumerWidget {
                     if (FormValueTrueListAnother.length == numberOfFormLength) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => SignInSecreen()),
+                        MaterialPageRoute(
+                            builder: (context) => Static(
+                                  type: typeuser,
+                                )),
                       );
 
-                      LocalNotificationService.showBasicNotificationWhenAnswer();
+                      LocalNotificationService
+                          .showBasicNotificationWhenAnswer();
                     }
                   }
                 },

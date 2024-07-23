@@ -7,7 +7,7 @@ import 'package:my_notification/config/algrithm.dart';
 import 'package:my_notification/config/color.dart';
 import 'package:my_notification/models/signup_model.dart';
 import 'package:my_notification/providers/insert_provider.dart';
-import 'package:my_notification/providers/notification_provider.dart';
+import 'package:my_notification/providers/fetch_question_provider.dart';
 import 'package:my_notification/views/forms.dart';
 
 class SignUpSecreen extends ConsumerWidget {
@@ -145,13 +145,16 @@ CheckboxListTile(
                 ),
 
    ValueListenableBuilder<bool>(
+  
                     valueListenable: clicked,
-                    builder: (context, isClicked, child) {
-                      return isClicked
+                    builder: (context, clicked, _) {
+                      
+                      return clicked
                           ? Center(child: CircularProgressIndicator())
                           : SubmitButton(
                               submitText: "تسجيل الدخول",
                               onPressed: () async {
+                                clicked=true;
                                 if (formKey.currentState!.validate()) {
                                          final name = nameController.text;
                       final age = int.tryParse(ageController.text);
@@ -176,7 +179,7 @@ String typeUser =
                           print(e);
                         }
                         finally {
-                                      clicked.value = false;
+                          clicked=false;
                                     }
                       }
                     }

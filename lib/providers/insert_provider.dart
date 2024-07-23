@@ -1,21 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:my_notification/models/question_model.dart';
 import 'package:my_notification/models/signup_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 
 final supabaseProvider = Provider<SupabaseClient>((ref) {
   return GetIt.instance<SupabaseClient>();
 });
 
-
-
 abstract class Service {
   late SupabaseClient supabase;
 
   Future<UserModel> insertUser(UserModel userModel);
-   Future insertIdUser( int questionId, int userId);
-
+  Future insertIdUser(int questionId, int userId);
 }
 
 class UserService extends Service {
@@ -39,7 +36,7 @@ class UserService extends Service {
 
     return UserModel(name: userModel.name, age: userModel.age, id: id);
   }
-  
+
   @override
   Future<UserModel> insertIdUser(int questionId, int userId) {
     // TODO: implement insertIdUser
@@ -54,7 +51,7 @@ class UseridService extends Service {
 
   final Ref ref;
 
-   @override
+  @override
   Future insertIdUser(int questionId, int userId) async {
     final response = await supabase
         .from('questions')
@@ -71,28 +68,108 @@ class UseridService extends Service {
     final updateResponse = await supabase
         .from('questions')
         .update({'id_of_users': idOfUsers}).eq('id', questionId);
-        
-          return insertIdUser;
+
+    return insertIdUser;
   }
-  
+
   @override
   Future<UserModel> insertUser(UserModel userModel) {
     // TODO: implement insertUser
     throw UnimplementedError();
   }
-  
 }
 
 final userServiceProvider = Provider<UserService>((ref) {
   return UserService(ref);
 });
 
-
 final useridServiceProvider = Provider<UseridService>((ref) {
   return UseridService(ref);
 });
 
+class Statication extends Service {
+  Statication(this.ref) {
+    supabase = ref.watch(supabaseProvider);
+  }
 
+  final Ref ref;
 
+  Future<List<Forms>> statications(String type) async {
+    final response = await supabase
+        .from('questions')
+        .select('questions ,id,id_of_users')
+        .eq('type', type);
+    print(response);
 
-  
+    List<Forms> data_static =
+        response.map((map) => Forms.fromMap(map)).toList();
+
+    print("lkljaslkkkkkkkkkkk");
+    print(data_static);
+    return data_static;
+  }
+
+  @override
+  Future insertIdUser(int questionId, int userId) {
+    // TODO: implement insertIdUser
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<UserModel> insertUser(UserModel userModel) {
+    // TODO: implement insertUser
+    throw UnimplementedError();
+  }
+}
+
+final staticServiceProvider = Provider<Statication>((ref) {
+  return Statication(ref);
+});
+
+final staticProvider =
+    FutureProvider.family<List<Forms>, String>((ref, type) async {
+  final statication = ref.watch(staticServiceProvider);
+  return statication.statications(type);
+});
+
+class Chekboxprov extends Service {
+  Chekboxprov(this.ref) {
+    supabase = ref.watch(supabaseProvider);
+  }
+
+  final Ref ref;
+  late final supabase;
+
+  @override
+  Future<int> chek(int questionId, int userId) async {
+    final response = await supabase
+        .from('questions')
+        .select('id_of_users')
+        .eq('id', questionId)
+        .single();
+
+    final data = response;
+    List<int> idOfUsers = List<int>.from(data['id_of_users'] ?? []);
+    if (idOfUsers.contains(userId)) {
+      return 1;
+    }
+
+    return 0;
+  }
+
+  @override
+  Future<void> insertIdUser(int questionId, int userId) {
+    // TODO: implement insertIdUser
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<UserModel> insertUser(UserModel userModel) {
+    // TODO: implement insertUser
+    throw UnimplementedError();
+  }
+}
+
+final chekboxServiceProvider = Provider<Chekboxprov>((ref) {
+  return Chekboxprov(ref);
+});
