@@ -33,7 +33,7 @@ final fetchQuestionsProvider = StreamProvider.family<List<Map<String, dynamic>>,
     try {
       final questionResponse = await supabase
           .from('questions')
-          .select('form, id')
+          .select('questions, id')
           .eq('type', typeUser);
 
       questions = questionResponse
