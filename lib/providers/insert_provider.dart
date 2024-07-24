@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_notification/models/question_model.dart';
 import 'package:my_notification/models/signup_model.dart';
+import 'package:my_notification/views/forms.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabaseProvider = Provider<SupabaseClient>((ref) {
@@ -141,7 +142,7 @@ class Chekboxprov extends Service {
   late final supabase;
 
   @override
-  Future<int> chek(int questionId, int userId) async {
+  Future chek(int questionId, int userId,int index) async {
     final response = await supabase
         .from('questions')
         .select('id_of_users')
@@ -150,11 +151,11 @@ class Chekboxprov extends Service {
 
     final data = response;
     List<int> idOfUsers = List<int>.from(data['id_of_users'] ?? []);
-    if (idOfUsers.contains(userId)) {
-      return 1;
+   if (idOfUsers.contains(userId)) {
+      ref.read(checkBoxProvider(index).notifier).state = true;
+    } else {
+      ref.read(checkBoxProvider(index).notifier).state = false;
     }
-
-    return 0;
   }
 
   @override

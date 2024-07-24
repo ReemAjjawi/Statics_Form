@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_notification/config/color.dart';
 import 'package:my_notification/providers/fetch_question_provider.dart';
-import 'package:my_notification/dirty_things.dart/notification.dart';
-import 'package:my_notification/views/login.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:my_notification/views/questions.dart';
 

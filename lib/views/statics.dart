@@ -74,7 +74,7 @@ class Static extends ConsumerWidget {
         x: index,
         barRods: [
           BarChartRodData(
-            toY: question.id_of_users.length.toDouble(),
+            toY: question.id_of_users!.length.toDouble(),
             color: AppColor.primary,
           ),
         ],

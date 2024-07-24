@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_notification/component.dart/button_submit.dart';
 import 'package:my_notification/component.dart/textfield_primary.dart';
 import 'package:my_notification/config/color.dart';
+import 'package:my_notification/models/question_model.dart';
 import 'package:my_notification/notifications/noti_service.dart';
 import 'package:my_notification/providers/insert_provider.dart';
 import 'package:my_notification/dirty_things.dart/insert_id_user_answer.dart';
@@ -16,7 +17,7 @@ class Third extends ConsumerWidget {
       this.typeuser,
       {super.key});
 
-  final Map<String, dynamic> questionList;
+  final Forms questionList;
   final int id;
   final int index;
   final int numberOfFormLength;
@@ -39,7 +40,7 @@ class Third extends ConsumerWidget {
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: questionList['questions'].length,
+                  itemCount: questionList.questions!.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(8),
@@ -49,7 +50,7 @@ class Third extends ConsumerWidget {
                           Align(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              questionList['questions'][index],
+                              questionList.questions![index],
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -74,8 +75,11 @@ class Third extends ConsumerWidget {
               ),
               SubmitButton(
                 submitText: "إرسال الأجوبة",
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState!.validate()) {
+                    final useridService = ref.watch(useridServiceProvider);
+
+                    await useridService.insertIdUser(questionList.id!, id);
                     // final question = ref.watch(questionProvider);
                     final FormValueTrueList = ref.watch(clickedFormProvider);
 
@@ -86,16 +90,9 @@ class Third extends ConsumerWidget {
                     final FormValueTrueListAnother =
                         ref.watch(clickedFormProvider);
 
-                    final useridService = ref.watch(useridServiceProvider);
-
-                    final insertedUser =
-                        useridService.insertIdUser(questionList['id'], id);
-
                     final usechek = ref.watch(chekboxServiceProvider);
 
-                    final usechek1 = usechek.chek(questionList['id'], id);
-
-                    ref.read(checkBoxProvider(index).notifier).state = true;
+                    await usechek.chek(questionList.id!, id, index);
 
                     if (FormValueTrueListAnother.length != numberOfFormLength) {
                       ScaffoldMessenger.of(context).showSnackBar(

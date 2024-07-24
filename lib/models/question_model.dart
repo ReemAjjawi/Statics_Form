@@ -4,13 +4,13 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class Forms {
-  List<dynamic> questions;
-  List<dynamic> id_of_users;
+  List<dynamic>? questions;
+  List<dynamic>? id_of_users;
   int? id;
   String? type;
   Forms({
-    required this.questions,
-    required this.id_of_users,
+    this.questions,
+    this.id_of_users,
     this.id,
     this.type,
   });
@@ -40,12 +40,16 @@ class Forms {
 
   factory Forms.fromMap(Map<String, dynamic> map) {
     return Forms(
-      questions: List<dynamic>.from(
-        (map['questions'] as List<dynamic>),
-      ),
-      id_of_users: List<dynamic>.from(
-        (map['id_of_users'] as List<dynamic>),
-      ),
+      questions: map['questions'] != null
+          ? List<dynamic>.from(
+              (map['questions'] as List<dynamic>),
+            )
+          : null,
+      id_of_users: map['id_of_users'] != null
+          ? List<dynamic>.from(
+              (map['id_of_users'] as List<dynamic>),
+            )
+          : null,
       id: map['id'] != null ? map['id'] as int : null,
       type: map['type'] != null ? map['type'] as String : null,
     );

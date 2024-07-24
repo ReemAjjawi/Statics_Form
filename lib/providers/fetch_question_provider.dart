@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_notification/models/question_model.dart';
 import 'package:my_notification/models/signup_model.dart';
 import 'package:my_notification/notifications/noti_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -25,7 +26,8 @@ final questionsNotifierProvider = StateNotifierProvider<QuestionsNotifier, List<
   return QuestionsNotifier();
 });
 
-final fetchQuestionsProvider = StreamProvider.family<List<Map<String, dynamic>>, String>((ref, typeUser) async* {
+final fetchQuestionsProvider =
+    StreamProvider.family<List<Forms>, String>((ref, typeUser) async* {
   final supabase = Supabase.instance.client;
   List<List<String>> questions;
 
@@ -35,13 +37,18 @@ final fetchQuestionsProvider = StreamProvider.family<List<Map<String, dynamic>>,
           .from('questions')
           .select('questions, id')
           .eq('type', typeUser);
+      print(questionResponse);
 
+      List<Forms> dataStatic =
+          questionResponse.map((map) => Forms.fromMap(map)).toList();
+
+      print(dataStatic);
       questions = questionResponse
           .map<List<String>>((item) => List<String>.from(item['questions']))
           .toList();
-
       ref.read(questionsNotifierProvider.notifier).updateQuestions(questions);
-      yield questionResponse;
+
+      yield dataStatic;
     } catch (error) {
       print('Error fetching data: $error');
       yield [];
