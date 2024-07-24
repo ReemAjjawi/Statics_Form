@@ -4,6 +4,7 @@ import 'package:my_notification/config/color.dart';
 import 'package:my_notification/models/question_model.dart';
 import 'package:my_notification/providers/insert_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:my_notification/providers/service.dart';
 
 class Static extends ConsumerWidget {
   final String type;

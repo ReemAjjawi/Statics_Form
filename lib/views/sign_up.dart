@@ -8,6 +8,7 @@ import 'package:my_notification/config/color.dart';
 import 'package:my_notification/models/signup_model.dart';
 import 'package:my_notification/providers/insert_provider.dart';
 import 'package:my_notification/providers/fetch_question_provider.dart';
+import 'package:my_notification/providers/service.dart';
 import 'package:my_notification/views/forms.dart';
 
 class SignUpSecreen extends ConsumerWidget {
