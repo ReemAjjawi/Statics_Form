@@ -10,11 +10,11 @@ class SignInSecreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColor.primary,
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.white,
+            color: const Color.fromARGB(255, 5, 2, 2),
           ),
           onPressed: () {
        
@@ -65,7 +65,7 @@ class SignInSecreen extends StatelessWidget {
                           "أهلاً بكم في مركز الإحصاء والتخطيط",
                                 style: TextStyle(
                               color: Colors.white,
-                              fontSize: 30.0,
+                              fontSize: 20.0,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
@@ -111,8 +111,8 @@ class SignInSecreen extends StatelessWidget {
                       return null;
                     },
                   ),
-                              SizedBox(height: 40),
-                  
+                           //   SizedBox(height: 20),
+                   SizedBox(height: 30),
 
 
     SubmitButton(
@@ -139,29 +139,37 @@ class SignInSecreen extends StatelessWidget {
                                             color: Colors.white,
                                             borderRadius: BorderRadius.circular(20),
                                           ),
-                                          child: Text(
-                                            " ليس لديك حساب ؟",
-                                            style: TextStyle(
-                                                color: Colors.cyan[500],
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
+                                          child: Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: Text(
+                                              " ليس لديك حساب ؟",
+                                              style: TextStyle(
+                                                  color: Colors.cyan[500],
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
                                         ),
                                         SizedBox(
                                           width: 20,
                                         ),
-                                        ElevatedButton(
-                                          child: Icon(
-                                            Icons.arrow_circle_left_rounded,color: Color.fromARGB(255, 33, 229, 243) ,
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:10,right:32.0),
+                                          child: Align(alignment: Alignment.bottomLeft,
+                                            child: InkWell(
+                                              child: Icon(size: 50,
+                                                Icons.arrow_circle_left_rounded,color: Color.fromARGB(255, 33, 229, 243) ,
+                                              ),
+                                              onTap: () {
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(builder: (context) => SignUpSecreen()),
+                                                  );
+                                            
+                                              },
+                                                                            
+                                            ),
                                           ),
-                                          onPressed: () {
-                                              Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignUpSecreen()),
-      );
-                                        
-                                          },
-                                
                                         ),
                                       ])
                                 ],

@@ -37,6 +37,7 @@ final fetchQuestionsProvider =
           .from('questions')
           .select('questions, id')
           .eq('type', typeUser);
+          print("hi");
       print(questionResponse);
 
       List<Forms> dataStatic =
